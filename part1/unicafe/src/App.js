@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 
 const Heading = ({ heading }) => <h1>{heading}</h1>
 
