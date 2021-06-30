@@ -5,7 +5,7 @@ const Heading = ({ heading }) => <h1>{heading}</h1>
 const Button = ({ handleClick, name }) => <button onClick={handleClick}>{name}</button>
 const Display = ({ name, counter, symbol }) => <p>{name} {counter} {symbol}</p>
 
-// Statistics component, exercise 1.8 unicafe step 3 
+// Statistics component - unicafe
 const Statistics = ({ good, neutral, bad, all }) => {
   const average = () => {
     if (all)
@@ -18,8 +18,16 @@ const Statistics = ({ good, neutral, bad, all }) => {
     return 0
   }
 
+  if (all === 0)
+    return (
+      <div>
+        <Heading heading='statistics' />
+        <p>No feedback given</p>
+      </div>
+    )
   return (
     <div>
+      <Heading heading='statistics' />
       <Display name='good  ' counter={good} />
       <Display name='neutral  ' counter={neutral} />
       <Display name='bad  ' counter={bad} />
@@ -60,7 +68,6 @@ const App = () => {
 
       <br></br>
 
-      <Heading heading='statistics' />
       <Statistics good={good} neutral={neutral} bad={bad} all={all} />
 
     </div>
