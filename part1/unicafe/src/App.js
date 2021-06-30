@@ -5,7 +5,7 @@ const Heading = ({ heading }) => <h1>{heading}</h1>
 
 const Button = ({ handleClick, name }) => <button onClick={handleClick}>{name}</button>
 
-const Statistic = ({ name, counter, symbol }) => <p>{name} {counter} {symbol}</p>
+const Statistic = ({ name, counter, symbol }) => <tr><td>{name}</td><td>{counter} {symbol}</td></tr>
 
 // Statistics component - unicafe
 const Statistics = ({ good, neutral, bad, all }) => {
@@ -30,12 +30,17 @@ const Statistics = ({ good, neutral, bad, all }) => {
   return (
     <div>
       <Heading heading='statistics' />
-      <Statistic name='good  ' counter={good} />
-      <Statistic name='neutral  ' counter={neutral} />
-      <Statistic name='bad  ' counter={bad} />
-      <Statistic name='all  ' counter={all} />
-      <Statistic name='average  ' counter={average()} />
-      <Statistic name='positive  ' counter={positive()} symbol='%' />
+      <table>
+        <tbody>
+          <Statistic name='good  ' counter={good} />
+          <Statistic name='neutral  ' counter={neutral} />
+          <Statistic name='bad  ' counter={bad} />
+          <Statistic name='all  ' counter={all} />
+          <Statistic name='average  ' counter={average()} />
+          <Statistic name='positive  ' counter={positive()} symbol='%' />
+        </tbody>
+      </table>
+
     </div>
   )
 }
