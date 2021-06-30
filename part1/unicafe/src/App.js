@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 
 const Heading = ({ heading }) => <h1>{heading}</h1>
+
 const Button = ({ handleClick, name }) => <button onClick={handleClick}>{name}</button>
-const Display = ({ name, counter, symbol }) => <p>{name} {counter} {symbol}</p>
+
+const Statistic = ({ name, counter, symbol }) => <p>{name} {counter} {symbol}</p>
 
 // Statistics component - unicafe
 const Statistics = ({ good, neutral, bad, all }) => {
@@ -28,12 +30,12 @@ const Statistics = ({ good, neutral, bad, all }) => {
   return (
     <div>
       <Heading heading='statistics' />
-      <Display name='good  ' counter={good} />
-      <Display name='neutral  ' counter={neutral} />
-      <Display name='bad  ' counter={bad} />
-      <Display name='all  ' counter={all} />
-      <Display name='average  ' counter={average()} />
-      <Display name='positive  ' counter={positive()} symbol='%' />
+      <Statistic name='good  ' counter={good} />
+      <Statistic name='neutral  ' counter={neutral} />
+      <Statistic name='bad  ' counter={bad} />
+      <Statistic name='all  ' counter={all} />
+      <Statistic name='average  ' counter={average()} />
+      <Statistic name='positive  ' counter={positive()} symbol='%' />
     </div>
   )
 }
