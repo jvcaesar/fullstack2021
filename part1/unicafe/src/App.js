@@ -5,6 +5,31 @@ const Heading = ({ heading }) => <h1>{heading}</h1>
 const Button = ({ handleClick, name }) => <button onClick={handleClick}>{name}</button>
 const Display = ({ name, counter, symbol }) => <p>{name} {counter} {symbol}</p>
 
+// Statistics component, exercise 1.8 unicafe step 3 
+const Statistics = ({ good, neutral, bad, all }) => {
+  const average = () => {
+    if (all)
+      return (good-bad)/all
+    return 0
+  }
+  const positive = () => {
+    if (good)
+      return (good/all)*100
+    return 0
+  }
+
+  return (
+    <div>
+      <Display name='good  ' counter={good} />
+      <Display name='neutral  ' counter={neutral} />
+      <Display name='bad  ' counter={bad} />
+      <Display name='all  ' counter={all} />
+      <Display name='average  ' counter={average()} />
+      <Display name='positive  ' counter={positive()} symbol='%' />
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -26,17 +51,6 @@ const App = () => {
     setAll(all + 1)
   }
 
-  const average = () => {
-    if (all)
-      return (good-bad)/all
-    return 0
-  }
-  const positive = () => {
-    if (good)
-      return (good/all)*100
-    return 0
-  }
-
   return (
     <div>
       <Heading heading='give feedback' />
@@ -47,12 +61,8 @@ const App = () => {
       <br></br>
 
       <Heading heading='statistics' />
-      <Display name='good  ' counter={good} />
-      <Display name='neutral  ' counter={neutral} />
-      <Display name='bad  ' counter={bad} />
-      <Display name='all  ' counter={all} />
-      <Display name='average  ' counter={average()} />
-      <Display name='positive  ' counter={positive()} symbol='%' />
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} />
+
     </div>
   )
 }
