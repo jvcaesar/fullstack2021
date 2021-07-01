@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 const generateRandomInteger = ( max ) => Math.floor(Math.random() * max)
 
+const Button = ({ handleClick, label }) => <button onClick={handleClick}>{label}</button>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -12,21 +14,33 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blod tests when dianosing patients'
   ]
+
+  const voteArray = new Array(anecdotes.length).fill(0)
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVote] = useState(voteArray)
 
 /*   let randy = generateRandomInteger(anecdotes.length)
   console.log ('random = ', randy) */
 
   const getAnecdote = () => setSelected(generateRandomInteger(anecdotes.length))
   
+  const makeVote = () => {
+    const upVote = [...votes]
+    upVote[selected] += 1
+    setVote(upVote)
+  }
+  
+
   return (
     <div>
-      <h1>anecdotes, exercise 1.12* step 1</h1>
+      <h1>anecdotes, exercise 1.12, 1.13</h1>
       {anecdotes[selected]}
       <br />
+      <p>has {votes[selected]} votes</p>
       <br />
-      <button onClick={getAnecdote}>next anecdote</button>
+      <Button handleClick={makeVote} label='vote' />
+      <Button handleClick={getAnecdote} label='next anecdote' />
     </div>
   )
 }
