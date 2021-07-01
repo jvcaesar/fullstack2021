@@ -19,28 +19,47 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVote] = useState(voteArray)
+  const [mostVotesIdx, setMostVotes] = useState(0)
 
-/*   let randy = generateRandomInteger(anecdotes.length)
-  console.log ('random = ', randy) */
-
-  const getAnecdote = () => setSelected(generateRandomInteger(anecdotes.length))
+  const getAnecdote = () => {
+    setSelected(generateRandomInteger(anecdotes.length))
+    mostVotes(votes)
+  }
   
   const makeVote = () => {
+
     const upVote = [...votes]
     upVote[selected] += 1
     setVote(upVote)
+    mostVotes(upVote)
   }
-  
+
+  // Finds and sets index of the most votes from the array
+  const mostVotes = (voteArray) => {
+    let max = 0
+    let idx = 0
+    for (let i = 0; i < voteArray.length; i++) {
+      if (max < voteArray[i]) {
+        max = voteArray[i]
+        idx = i
+      }
+    }
+    console.log('index', idx)
+    setMostVotes(idx)
+  }
 
   return (
     <div>
-      <h1>anecdotes, exercise 1.12, 1.13</h1>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
-      <br />
       <p>has {votes[selected]} votes</p>
-      <br />
+
       <Button handleClick={makeVote} label='vote' />
       <Button handleClick={getAnecdote} label='next anecdote' />
+      <br />
+      <h1>Anecdote with the most votes</h1>
+      {anecdotes[mostVotesIdx]}
+      <p>has {votes[mostVotesIdx]} votes</p>
     </div>
   )
 }
