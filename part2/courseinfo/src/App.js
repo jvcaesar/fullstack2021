@@ -7,11 +7,13 @@ const Header = ({ course }) => {
 }
 
 const Total = ({ course }) => {
-  const exerciseArr = course.parts.map(part => part.exercises)
-//  console.log('exerarr: ', exerciseArr)
-  const total = exerciseArr.reduce((total, part) => {
-//    console.log('part', total, part)
-    return (total + part)
+  const parts = course.parts
+
+  const total = parts.reduce((sum, val) => {
+    //console.log('sum, val', sum, val)
+    if (typeof sum === 'number')
+      return sum + val.exercises
+    return sum.exercises + val.exercises
   })
   return(
     <p><b>total of {total} exercises</b></p>
@@ -66,7 +68,7 @@ const App = () => {
         id: 3
       },
       {
-        name: 'Redux',
+        name: 'Redux chapter',
         exercises: 11,
         id: 4
       }
