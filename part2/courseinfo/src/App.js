@@ -7,9 +7,14 @@ const Header = ({ course }) => {
 }
 
 const Total = ({ course }) => {
-  const sum = course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
+  const exerciseArr = course.parts.map(part => part.exercises)
+//  console.log('exerarr: ', exerciseArr)
+  const total = exerciseArr.reduce((total, part) => {
+//    console.log('part', total, part)
+    return (total + part)
+  })
   return(
-    <p>Number of exercises {sum}</p>
+    <p><b>total of {total} exercises</b></p>
   ) 
 }
 
@@ -34,7 +39,7 @@ const Course = ({ course }) => {
     <div>
       <Header course={course} />
       <Content course={course} />
-     {/*  <Total course={course} /> */}
+      <Total course={course} />
     </div>
   )
 }
@@ -56,13 +61,13 @@ const App = () => {
         id: 2
       },
       {
-        name: ' props to pass data',
-        exercises: 9,
+        name: 'State of a component',
+        exercises: 14,
         id: 3
       },
       {
-        name: 'State of a component',
-        exercises: 14,
+        name: 'Redux',
+        exercises: 11,
         id: 4
       }
     ]
