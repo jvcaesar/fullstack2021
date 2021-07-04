@@ -8,13 +8,25 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
 
+  const nameExists = () => {
+    const found = persons.find(name => name.name === newName)
+    //console.log('found: ', found)
+    if (found)
+      return true
+    return false
+  }
   const addNewName = (event) => {
     event.preventDefault()
     //console.log('addnewname: ', event.target)
     const personObject = {
       name: newName
     }
-    setPersons(persons.concat(personObject))
+    if (nameExists()) {
+      //console.log(`${newName} exists in the array`)
+      alert(`${newName} is already added to phonebook`)
+    } else {
+      setPersons(persons.concat(personObject))
+    }
     setNewName('')
   }
 
