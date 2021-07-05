@@ -9,7 +9,8 @@ const Filter = ({ value, handler }) => {
   )
 }
 
-const Countries = ({ countries, filterWord }) => {
+const Countries = ({ countries, filterWord, setFilter }) => {
+  console.log(`${countries.length} countries`)
   const countriesToShow = filterWord === '' ? countries : 
   countries.filter(country => country.name.toLowerCase().indexOf(filterWord.toLowerCase()) !== -1)
   if (countriesToShow.length > 10)
@@ -21,7 +22,14 @@ const Countries = ({ countries, filterWord }) => {
   }
   return (
     <div>
-      {countriesToShow.map(country => <Country key={country.name} country={country} />)}
+      {countriesToShow.map(country => {
+        return (
+          <div key={country.name}>
+            <Country country={country} />
+            <button onClick={() => setFilter(country.name)}>show</button>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -41,7 +49,7 @@ const CountryDetail = ({ country }) => {
 
 const Languages = ({ languages }) => languages.map(language => <li key={language.name}>{language.name}</li>)
 
-const Country = ({ country }) => <div>{country.name}</div>
+const Country = ({ country }) => <>{country.name}</>
 
 const App = () => {
   const [countries, setCountries] = useState([])
@@ -64,7 +72,7 @@ const App = () => {
       <h2>Country Data</h2>
       <Filter value={filterCountry} handler={handleFilterInput} />
 
-      <Countries countries={countries} filterWord={filterCountry} />
+      <Countries countries={countries} filterWord={filterCountry} setFilter={setFilterCountry} />
     </div>
     
   )
