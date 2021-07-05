@@ -2,6 +2,41 @@ import React, {useState} from 'react'
 
 const Person = ({ person }) => <div>{person.name} {person.number}</div>
 
+const Filter = ({ value, handler }) => {
+  return (
+    <div>
+      filter shown with: <input value={value} onChange={handler} />
+    </div>
+  )
+}
+
+const PersonForm = ({ handleSubmit, newName, nameHandler, newNumber, numberHandler}) => {
+  return (
+    <form onSubmit={handleSubmit}>
+    <div>
+      name: <input value={newName} onChange={nameHandler} />
+    </div>
+    <div>
+      number: <input value={newNumber} onChange={numberHandler} />
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+  )
+}
+
+const Persons = ({ persons, filterWord }) => {
+  const personsToShow = filterWord === '' ? persons : 
+    persons.filter(person => person.name.toLowerCase().indexOf(filterWord.toLowerCase()) !== -1)
+  return (
+    <div>
+      {personsToShow.map(person => <Person key={person.name} person={person} />)}
+    </div>
+  )
+}
+
+
 const App = () => {
   const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -44,31 +79,24 @@ const App = () => {
 
   const handleNumberInput = (event) => setNewNumber(event.target.value)
 
-  const personsToShow = filterWord === '' ? persons : 
-    persons.filter(person => person.name.toLowerCase().indexOf(filterWord.toLowerCase()) !== -1)
-
   return (
     <div>
-      <div>
-        <h1>Phonebook</h1>
-        filter shown with: <input value={filterWord} onChange={handleFilterInput} />
-      </div>
+
+      <h1>Phonebook</h1>
+
+      <Filter value={filterWord} handler={handleFilterInput} />
 
       <h2>add a new</h2>
-      <form onSubmit={addNewName}>
-        <div>
-          name: <input value={newName} onChange={handleNameInput} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInput} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+
+      <PersonForm handleSubmit={addNewName} 
+          newName={newName} nameHandler={handleNameInput}
+          newNumber={newNumber} numberHandler={handleNumberInput} 
+      />
 
       <h2>Numbers</h2>
-      {personsToShow.map(person => <Person key={person.name} person={person} />)}
+
+      <Persons persons={persons} filterWord={filterWord} />
+
     </div>
   )
 }
