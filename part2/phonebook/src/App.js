@@ -57,11 +57,27 @@ const Persons = ({ persons, filterWord, setAllPersons }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  const errorStyle = {
+    color: 'green',
+    background: 'lightgrey',
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    fontSize: 20,
+  }
+  if (message === null)
+    return null
+  return <div style={errorStyle}>{message}</div>
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterWord, setFilterWord ] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const getAllPersons = () => {
     personService.getAll()
@@ -92,10 +108,15 @@ const App = () => {
       //alert(`${newName} is already added to phonebook`)
       personService.updatePerson(nameFound, personObject)
         .then(updatedPerson =>setPersons(persons.map(person => person.id !== nameFound ? person : updatedPerson)) )
-    } else if (!nameFound) {
+      setErrorMessage(`${newName} updated in Phonebook`)
+      } else if (!nameFound) {
       personService.createPerson(personObject)
         .then(response => setPersons(persons.concat(response)))
+      setErrorMessage(`${newName} added to Phonebook`)
     }
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
     setNewName('')
     setNewNumber('')
   }
@@ -111,6 +132,7 @@ const App = () => {
 
       <h1>Phonebook</h1>
 
+      <Notification message={errorMessage} />
       <Filter value={filterWord} handler={handleFilterInput} />
 
       <h2>add a new</h2>
