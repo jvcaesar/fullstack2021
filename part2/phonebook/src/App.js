@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
 
-const Person = ({ person }) => <div>{person.name} {person.number}</div>
+const Person = ({ person, deletePerson }) => {
+  return (
+    <div>
+      {person.name} {person.number}
+      <button onClick={deletePerson}>delete</button>
+    </div>
+  )
+}
 
 const Filter = ({ value, handler }) => {
   return (
@@ -27,12 +34,25 @@ const PersonForm = ({ handleSubmit, newName, nameHandler, newNumber, numberHandl
   )
 }
 
-const Persons = ({ persons, filterWord }) => {
+const deletePerson = (id, name, setAllPersons) => {
+  //console.log(`Delete ${id}`)
+  if (window.confirm(`Delete ${name}?`)) {
+    personService.removePerson(id)
+      .then(response => setAllPersons())
+      console.log(`${name} deleted.`)
+  } else {
+    console.log(`${name} not deleted.`)
+  }
+}
+
+const Persons = ({ persons, filterWord, setAllPersons }) => {
   const personsToShow = filterWord === '' ? persons : 
     persons.filter(person => person.name.toLowerCase().indexOf(filterWord.toLowerCase()) !== -1)
   return (
     <div>
-      {personsToShow.map(person => <Person key={person.name} person={person} />)}
+      {personsToShow.map(person => 
+        <Person key={person.name} person={person} 
+        deletePerson={() => deletePerson(person.id, person.name, setAllPersons)} />)}
     </div>
   )
 }
@@ -43,12 +63,12 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterWord, setFilterWord ] = useState('')
 
-  const hook = () => {
+  const getAllPersons = () => {
     personService.getAll()
       .then(response => setPersons(response))
   }
 
-  useEffect(hook, [])
+  useEffect(getAllPersons, [])
 
   const nameExists = () => {
     const found = persons.find(name => name.name === newName)
@@ -95,7 +115,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons persons={persons} filterWord={filterWord} />
+      <Persons persons={persons} filterWord={filterWord} setAllPersons={getAllPersons}/>
 
     </div>
   )

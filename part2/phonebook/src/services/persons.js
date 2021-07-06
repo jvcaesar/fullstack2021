@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3001/persons'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
-    console.log('getall', request)
+    //console.log('getall', request)
     return request.then(response => response.data)
 }
 
@@ -13,4 +13,10 @@ const createPerson = (newPersonObj) => {
     return request.then(response => response.data)
 }
 
-export default { getAll, createPerson }
+const removePerson = (id) => {
+    const request = axios.delete(`${baseUrl}/${id}`)
+    //console.log(`Deleted ${id}`, request)
+    return request
+}
+
+export default { getAll, createPerson, removePerson }
