@@ -21,19 +21,14 @@
       "id": 4
     },
     {
-      "name": "John",
-      "number": "55555",
-      "id": 5
-    },
-    {
       "name": "Jack Spa",
       "number": "124346",
       "id": 6
     },
     {
-      "name": "Jane Doe",
-      "number": "124436",
-      "id": 8
+      "name": "James",
+      "number": "11222333",
+      "id": 10
     }
   ]
 }

@@ -77,7 +77,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterWord, setFilterWord ] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const getAllPersons = () => {
     personService.getAll()
@@ -107,16 +107,30 @@ const App = () => {
       window.confirm(`${newName} is already added to phonebook. Replace old number with new one?`)) {
       //alert(`${newName} is already added to phonebook`)
       personService.updatePerson(nameFound, personObject)
-        .then(updatedPerson =>setPersons(persons.map(person => person.id !== nameFound ? person : updatedPerson)) )
-      setErrorMessage(`${newName} updated in Phonebook`)
+        .then(updatedPerson => {
+          setPersons(persons.map(person => person.id !== nameFound ? person : updatedPerson)) 
+          setErrorMessage(`${newName} updated in Phonebook`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(`${newName} was already removed from server`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+          setPersons(persons.filter(person => person.id !== nameFound))
+        })
+      
       } else if (!nameFound) {
       personService.createPerson(personObject)
         .then(response => setPersons(persons.concat(response)))
       setErrorMessage(`${newName} added to Phonebook`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
+
     setNewName('')
     setNewNumber('')
   }
