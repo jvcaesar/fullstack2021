@@ -30,6 +30,12 @@ app.get('/', (request, response) => {
     response.send('<h1>PhoneBook API Server - Part3</h1>')
 })
 
+app.get('/info', (request, response) => {
+  const entries = persons.length > 0 ? persons.length : 0
+  const date = new Date()
+  response.send(`<p>PhoneBook has info for ${entries} persons</p> ${date}`)
+})
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
